@@ -23,13 +23,20 @@ import net.minidev.json.parser.ParseException;
 @Service
 public class ExcuseService {
 
+    /*
+     * This method is used to read the JSON file and return the list of excuses
+     * 
+     * @return List<String>
+     */
     public List<String> list() {
         List<String> returnList = new ArrayList<String>();
         ObjectMapper mapper = new ObjectMapper();
         TypeReference<List<Excuse>> typeReference = new TypeReference<List<Excuse>>() {
         };
+        // read file
         InputStream inputStream = TypeReference.class.getResourceAsStream("/data/data.json");
         try {
+            // map JSON to Java object
             List<Excuse> excuse = mapper.readValue(inputStream, typeReference);
             for (Excuse e : excuse) {
                 returnList.add(e.getMessage());
@@ -44,7 +51,11 @@ public class ExcuseService {
         }
         return returnList;
     }
-
+    /*
+     * This method is used to read the JSON file and return the list of excuses
+     * 
+     * @return List<Excuse>
+     */
     public List<Excuse> getAllExcuses() {
         List<Excuse> returnList = new ArrayList<Excuse>();
         ObjectMapper mapper = new ObjectMapper();
@@ -64,23 +75,43 @@ public class ExcuseService {
         }
         return returnList;
     }
-
+    /*
+     * This method is used to add the new excuse to the JSON file
+     * 
+     * @param tag 
+     * @param message
+     * 
+     */
     public void add(String tag, String message) {
         try {
+            // using GSON library
             Gson gson = new Gson();
             JSONParser parser = new JSONParser();
+            // get all existing excuses
             List<Excuse> excuses = getAllExcuses();
+            // get last id
             int last_id = excuses.get(excuses.size() - 1).getHttp_code();
+            // create new excuse with new id = last id + 1
             Excuse excuse = new Excuse(last_id + 1, tag, message);
+            // file path
             String fileName = "src/main/resources/data/data.json";
+            // read file
             InputStream inputStream = TypeReference.class.getResourceAsStream("/data/data.json");
+            // store file in an object
             Object object = parser.parse(inputStream);
+            // convert object to JSONArray
             JSONArray jsonObject = (JSONArray) object;
-            List<Excuse> newExcuses = gson.fromJson(jsonObject.toJSONString(), new TypeToken<List<Excuse>>(){}.getType());
+            // transform json in to object list to get all existing excuses from json
+            List<Excuse> newExcuses = gson.fromJson(jsonObject.toJSONString(), new TypeToken<List<Excuse>>() {
+            }.getType());
+            // add new excuse to existing excuses
             newExcuses.add(excuse);
+            // reconvert object list to json
             String json = gson.toJson(newExcuses);
+            // write a new json file
             PrintWriter writer = new PrintWriter(fileName, "UTF-8");
             writer.print(json);
+            // close all resources
             writer.close();
             inputStream.close();
         } catch (IOException e) {
