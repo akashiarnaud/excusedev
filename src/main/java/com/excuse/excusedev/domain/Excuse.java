@@ -8,10 +8,13 @@ public class Excuse {
     public Excuse() {
     }
 
-    public Excuse(int http_code, String tag, String message) {
+    private Excuse(int http_code, String tag, String message) {
         this.http_code = http_code;
         this.tag = tag;
         this.message = message;
+    }
+    public static Excuse createExcuse(int http_code, String tag, String message){
+        return new Excuse(http_code, tag, message);
     }
 
     public int getHttp_code() {

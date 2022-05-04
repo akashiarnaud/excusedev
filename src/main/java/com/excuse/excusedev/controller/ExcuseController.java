@@ -2,9 +2,9 @@ package com.excuse.excusedev.controller;
 import com.excuse.excusedev.service.ExcuseService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,7 +22,7 @@ public class ExcuseController {
         return excuseService.list();
     }
 
-    @GetMapping("/add")
+    @PostMapping("/add")
     public void add(@RequestBody String tag, @RequestBody String excuse) {
         excuseService.add(tag, excuse);
     }

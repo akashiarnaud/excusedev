@@ -86,13 +86,13 @@ public class ExcuseService {
         try {
             // using GSON library
             Gson gson = new Gson();
-            JSONParser parser = new JSONParser();
+            JSONParser parser = new JSONParser(0);
             // get all existing excuses
             List<Excuse> excuses = getAllExcuses();
             // get last id
             int last_id = excuses.get(excuses.size() - 1).getHttp_code();
             // create new excuse with new id = last id + 1
-            Excuse excuse = new Excuse(last_id + 1, tag, message);
+            Excuse excuse = Excuse.createExcuse(last_id + 1, tag, message);
             // file path
             String fileName = "src/main/resources/data/data.json";
             // read file
