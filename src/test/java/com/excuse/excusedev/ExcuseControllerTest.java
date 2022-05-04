@@ -21,8 +21,7 @@ public class ExcuseControllerTest {
     @Test
     public void list() throws Exception {
         mockMvc.perform(get("/excuses/list"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].http_code").value(701));
+            .andExpect(status().isOk());
     }
     @Test
     public void add() throws Exception {

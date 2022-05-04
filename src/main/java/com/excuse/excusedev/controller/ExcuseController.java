@@ -19,7 +19,10 @@ public class ExcuseController {
 
     @GetMapping("/list")
     public Iterable<String> list() {
-        return excuseService.list();
+        if(excuseService != null){
+            return excuseService.list();
+        }
+        return null;
     }
 
     @PostMapping("/add")
