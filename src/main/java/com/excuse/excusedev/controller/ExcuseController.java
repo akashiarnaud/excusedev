@@ -1,4 +1,5 @@
 package com.excuse.excusedev.controller;
+import com.excuse.excusedev.domain.Excuse;
 import com.excuse.excusedev.service.ExcuseService;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class ExcuseController {
     }
 
     @GetMapping("/list")
-    public Iterable<String> list() {
+    public Iterable<Excuse> list() {
         if(excuseService != null){
             return excuseService.list();
         }
@@ -26,7 +27,7 @@ public class ExcuseController {
     }
 
     @PostMapping("/add")
-    public void add(@RequestBody String tag, @RequestBody String excuse) {
-        excuseService.add(tag, excuse);
+    public void add(@RequestBody Excuse excuse) {
+        excuseService.add(excuse);
     }
 }

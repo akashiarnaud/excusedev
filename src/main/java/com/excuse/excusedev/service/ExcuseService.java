@@ -26,37 +26,9 @@ public class ExcuseService {
     /*
      * This method is used to read the JSON file and return the list of excuses
      * 
-     * @return List<String>
-     */
-    public List<String> list() {
-        List<String> returnList = new ArrayList<String>();
-        ObjectMapper mapper = new ObjectMapper();
-        TypeReference<List<Excuse>> typeReference = new TypeReference<List<Excuse>>() {
-        };
-        // read file
-        InputStream inputStream = TypeReference.class.getResourceAsStream("/data/data.json");
-        try {
-            // map JSON to Java object
-            List<Excuse> excuse = mapper.readValue(inputStream, typeReference);
-            for (Excuse e : excuse) {
-                returnList.add(e.getMessage());
-            }
-            inputStream.close();
-        } catch (StreamReadException e) {
-            e.printStackTrace();
-        } catch (DatabindException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return returnList;
-    }
-    /*
-     * This method is used to read the JSON file and return the list of excuses
-     * 
      * @return List<Excuse>
      */
-    public List<Excuse> getAllExcuses() {
+    public List<Excuse> list() {
         List<Excuse> returnList = new ArrayList<Excuse>();
         ObjectMapper mapper = new ObjectMapper();
         TypeReference<List<Excuse>> typeReference = new TypeReference<List<Excuse>>() {
@@ -82,17 +54,17 @@ public class ExcuseService {
      * @param message
      * 
      */
-    public void add(String tag, String message) {
+    public void add(Excuse excuse) {
         try {
             // using GSON library
             Gson gson = new Gson();
             JSONParser parser = new JSONParser(0);
             // get all existing excuses
-            List<Excuse> excuses = getAllExcuses();
+            List<Excuse> excuses = list();
             // get last id
             int last_id = excuses.get(excuses.size() - 1).getHttp_code();
-            // create new excuse with new id = last id + 1
-            Excuse excuse = Excuse.createExcuse(last_id + 1, tag, message);
+            // set new excuse id last id + 1
+            excuse.setHttp_code(last_id + 1);
             // file path
             String fileName = "src/main/resources/data/data.json";
             // read file
